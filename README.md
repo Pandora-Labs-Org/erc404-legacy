@@ -28,6 +28,16 @@ Generally the initial tokens minted to the deployer will be added to a DEX as li
 
 Future versions of the standard will contain ERC20-only minting functionality.
 
+## Uniswap V3
+
+To predict the address of your Uniswap V3 Pool, use the following simulator: [https://dashboard.tenderly.co/shared/simulation/92dadba3-92c3-46a2-9ccc-c793cac6c33d](https://dashboard.tenderly.co/shared/simulation/92dadba3-92c3-46a2-9ccc-c793cac6c33d).
+
+To use:
+
+1. Click Re-Simulate in the top right corner.
+2. Update the simulation parameters: `tokenA` (your token address), `tokenB` (typically WETH, or `0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2`), and set the fee tier to either 500, 3000 (for 0.3%), or 10000 (for 1%).
+3. Run Simulate, and then expand the Input/Output section. The output on the right column will show the derived pool address.
+
 ## Licensing
 
 This source code is unlicensed, and free for anyone to use as they please. Any effort to improve source or explore the concept further is encouraged!
