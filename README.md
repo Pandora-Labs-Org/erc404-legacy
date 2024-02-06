@@ -1,6 +1,6 @@
 # ERC404
 
-Originally developed and deployed by [0xacme](https://github.com/0xacme).
+Originally developed by [0xacme](https://github.com/0xacme).
 
 ERC404 is an experimental, mixed ERC20 / ERC721 implementation with native liquidity and fractionalization. While these two standards are not designed to be mixed, this implementation strives to do so in as robust a manner as possible while minimizing tradeoffs.
 
