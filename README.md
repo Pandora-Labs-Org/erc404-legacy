@@ -10,10 +10,6 @@ This standard is entirely experimental and unaudited, while testing has been con
 
 The ERC721 implementation here is a bit non-standard, where tokens are instead burned and minted repeatedly as per underlying / fractional transfers. This is a aspect of the concept's design is deliberate, with the goal of creating an NFT that has native fractionalization, liquidity and encourages some aspects of trading / engagement to farm unique trait sets.
 
-## Licensing
-
-This source code is unlicensed, and free for anyone to use as they please. Any effort to improve source or explore the concept further is encouraged!
-
 ## Usage
 
 To deploy your own ERC404 token, look at the two examples provided in the src folder, Example.sol and Pandora.sol.
@@ -31,3 +27,7 @@ Also note that if the owner of these minted tokens attempts to send these initia
 Generally the initial tokens minted to the deployer will be added to a DEX as liquidity. The DEX pool address should also be added to the whitelist to prevent minting NFTs to it and burning NFTs from it on transfer.
 
 Future versions of the standard will contain ERC20-only minting functionality.
+
+## Licensing
+
+This source code is unlicensed, and free for anyone to use as they please. Any effort to improve source or explore the concept further is encouraged!
