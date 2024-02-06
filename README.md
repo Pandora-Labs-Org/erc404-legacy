@@ -13,3 +13,21 @@ The ERC721 implementation here is a bit non-standard, where tokens are instead b
 ## Licensing
 
 This source code is unlicensed, and free for anyone to use as they please. Any effort to improve source or explore the concept further is encouraged!
+
+## Usage
+
+To deploy your own ERC404 token, look at the two examples provided in the src folder, Example.sol and Pandora.sol.
+
+### Example.sol
+
+This is an extremely simple minimal version of an ERC404 that mints the entire supply to the initial owner of the contract.
+
+The key thing to note here is that the initial supply is minted by setting the ERC20 balance directly, unlike how standard ERC20 tokens will mint the initial tokens with a transfer function.
+
+This is because if you were to use the transfer functions, it would not only mint the total supply of ERC20s, it would also mint the entire supply of ERC721s, which would be unnecessary and very expensive in terms of gas.
+
+Also note that if the owner of these minted tokens attempts to send these initially minted tokens without first adding themselves to the whitelist, the transfer will fail because the contract will otherwise assume they hold the corresponding NFTs, when in fact the NFT minting step has been skipped for these initially minted tokens.
+
+Generally the initial tokens minted to the deployer will be added to a DEX as liquidity. The DEX pool address should also be added to the whitelist to prevent minting NFTs to it and burning NFTs from it on transfer.
+
+Future versions of the standard will contain ERC20-only minting functionality.

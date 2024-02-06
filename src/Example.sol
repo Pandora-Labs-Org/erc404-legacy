@@ -7,6 +7,7 @@ import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 contract Example is ERC404 {
     constructor(address _owner) ERC404("Example", "EXM", 18, 10_000, _owner) {
         balanceOf[_owner] = totalSupply;
+        setWhitelist(_owner, true);
     }
 
     function tokenURI(uint256 id) public pure override returns (string memory){
