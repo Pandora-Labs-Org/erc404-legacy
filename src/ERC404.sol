@@ -116,6 +116,8 @@ abstract contract ERC404 is Ownable {
     /// @dev Current mint counter, monotonically increasing to ensure accurate ownership
     uint256 public minted;
 
+    uint256 public ratio;
+
     // Mappings
     /// @dev Balance of user in fractional representation
     mapping(address => uint256) public balanceOf;
@@ -147,12 +149,14 @@ abstract contract ERC404 is Ownable {
         string memory _symbol,
         uint8 _decimals,
         uint256 _totalNativeSupply,
-        address _owner
+        address _owner,
+        uint256 _ratio
     ) Ownable(_owner) {
         name = _name;
         symbol = _symbol;
         decimals = _decimals;
-        totalSupply = _totalNativeSupply * (10 ** decimals);
+        ratio = _ratio;
+        totalSupply = _totalNativeSupply * (10 ** (decimals+_ratio));
     }
 
     /// @notice Initialization function to set pairs / etc
@@ -345,7 +349,7 @@ abstract contract ERC404 is Ownable {
 
     // Internal utility logic
     function _getUnit() internal view returns (uint256) {
-        return 10 ** decimals;
+        return 10 ** (decimals + ratio);
     }
 
     function _mint(address to) internal virtual {

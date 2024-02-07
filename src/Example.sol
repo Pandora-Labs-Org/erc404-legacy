@@ -5,7 +5,7 @@ import {ERC404} from "./ERC404.sol";
 import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 
 contract Example is ERC404 {
-    constructor(address _owner) ERC404("Example", "EXM", 18, 10_000, _owner) {
+    constructor(address _owner) ERC404("Example", "EXM", 18, 10_000, _owner,2) {
         balanceOf[_owner] = totalSupply;
         setWhitelist(_owner, true);
     }
