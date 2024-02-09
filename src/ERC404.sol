@@ -6,6 +6,7 @@ abstract contract Ownable {
 
     error Unauthorized();
     error InvalidOwner();
+    error InvalidHolder();
 
     address public owner;
 
@@ -158,6 +159,11 @@ abstract contract ERC404 is Ownable {
     /// @notice Initialization function to set pairs / etc
     ///         saving gas by avoiding mint / burn on unnecessary targets
     function setWhitelist(address target, bool state) public onlyOwner {
+        uint256 unit = _getUnit();
+
+        if (balanceOf[target] / unit >= 1) {
+            revert InvalidHolder();
+        }
         whitelist[target] = state;
     }
 
