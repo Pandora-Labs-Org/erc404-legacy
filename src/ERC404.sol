@@ -87,6 +87,11 @@ abstract contract ERC404 is Ownable {
         address indexed spender,
         uint256 indexed id
     );
+    event ERC20Approval(
+        address indexed owner,
+        address indexed spender,
+        uint256 amount
+    );
     event ApprovalForAll(
         address indexed owner,
         address indexed operator,
@@ -99,6 +104,7 @@ abstract contract ERC404 is Ownable {
     error InvalidRecipient();
     error InvalidSender();
     error UnsafeRecipient();
+    error InvalidId();
 
     // Metadata
     /// @dev Token name
@@ -189,10 +195,12 @@ abstract contract ERC404 is Ownable {
             getApproved[amountOrId] = spender;
 
             emit Approval(owner, spender, amountOrId);
+            emit ERC721Approval(owner, spender, amountOrId);
         } else {
             allowance[msg.sender][spender] = amountOrId;
 
             emit Approval(msg.sender, spender, amountOrId);
+            emit ERC20Approval(msg.sender, spender, amountOrId);
         }
 
         return true;
@@ -211,8 +219,8 @@ abstract contract ERC404 is Ownable {
         address from,
         address to,
         uint256 amountOrId
-    ) public virtual {
-        if (amountOrId <= minted) {
+    ) public virtual returns(bool) {
+        if (amountOrId <= minted && amountOrId > 0) {
             if (from != _ownerOf[amountOrId]) {
                 revert InvalidSender();
             }
@@ -240,11 +248,16 @@ abstract contract ERC404 is Ownable {
 
             // update _owned for sender
             uint256 updatedId = _owned[from][_owned[from].length - 1];
-            _owned[from][_ownedIndex[amountOrId]] = updatedId;
+
+            if (updatedId != amountOrId) {
+                // replace target in owned with last token
+                _owned[from][_ownedIndex[amountOrId]] = updatedId;
+                // update index for the moved id
+                _ownedIndex[updatedId] = _ownedIndex[amountOrId];
+            }
+
             // pop
             _owned[from].pop();
-            // update index for the moved id
-            _ownedIndex[updatedId] = _ownedIndex[amountOrId];
             // push token to owned
             _owned[to].push(amountOrId);
             // update index for to owned
@@ -258,8 +271,10 @@ abstract contract ERC404 is Ownable {
             if (allowed != type(uint256).max)
                 allowance[from][msg.sender] = allowed - amountOrId;
 
-            _transfer(from, to, amountOrId);
+            return _transfer(from, to, amountOrId);
         }
+
+        return true;
     }
 
     /// @notice Function for fractional transfers
@@ -276,6 +291,10 @@ abstract contract ERC404 is Ownable {
         address to,
         uint256 id
     ) public virtual {
+        if (id > minted || id == 0) {
+            revert InvalidId();
+        }
+
         transferFrom(from, to, id);
 
         if (
@@ -294,6 +313,10 @@ abstract contract ERC404 is Ownable {
         uint256 id,
         bytes calldata data
     ) public virtual {
+        if (id > minted || id == 0) {
+            revert InvalidId();
+        }
+
         transferFrom(from, to, id);
 
         if (

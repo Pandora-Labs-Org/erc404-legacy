@@ -12,6 +12,7 @@ contract Pandora is ERC404 {
         address _owner
     ) ERC404("Pandora", "PANDORA", 18, 10000, _owner) {
         balanceOf[_owner] = 10000 * 10 ** 18;
+        whitelist[_owner] = true;
     }
 
     function setDataURI(string memory _dataURI) public onlyOwner {
