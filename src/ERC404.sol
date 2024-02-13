@@ -211,7 +211,7 @@ abstract contract ERC404 is Ownable {
         address from,
         address to,
         uint256 amountOrId
-    ) public virtual {
+    ) public virtual returns (bool) {
         if (amountOrId <= minted) {
             if (from != _ownerOf[amountOrId]) {
                 revert InvalidSender();
@@ -260,6 +260,9 @@ abstract contract ERC404 is Ownable {
 
             _transfer(from, to, amountOrId);
         }
+
+        //No reverts happened so transaction was successful
+        return true;
     }
 
     /// @notice Function for fractional transfers
