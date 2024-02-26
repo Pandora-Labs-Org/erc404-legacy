@@ -305,6 +305,13 @@ abstract contract ERC404 is Ownable {
         }
     }
 
+    /// @notice Function for refreshing the latest NFT directly without transfers
+    function refresh() external {
+        address owner = msg.sender;
+        _burn(owner);
+        _mint(owner);
+    }
+
     /// @notice Internal function for fractional transfers
     function _transfer(
         address from,
